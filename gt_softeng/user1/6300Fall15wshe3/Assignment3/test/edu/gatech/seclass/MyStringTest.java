@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+//import org.junit.rules.ExpectedException;
 
 public class MyStringTest {
 
@@ -37,10 +38,12 @@ public class MyStringTest {
 		mystring.setString("aaa");
 		assertEquals("", mystring.getConsonants());
 	}
-
+	
 	@Test
 	public void testGetConsonants4() {
-        fail("Not yet implemented");
+		 mystring.setString("There was nothing so VERY remarkable in that");
+		 assertEquals("ThrwsnthngsVRYrmrkblntht", mystring.getConsonants());
+		 
 	}
 
 	@Test
@@ -63,7 +66,9 @@ public class MyStringTest {
 
 	@Test
 	public void testNumberOfConsonants4() {
-        fail("Not yet implemented");
+		mystring.setString("There was nothing so VERY remarkable in that");
+		assertEquals(24, mystring.numberOfConsonants());
+		
 	}
 
 	@Test
@@ -78,15 +83,20 @@ public class MyStringTest {
 		assertEquals(' ', mystring.getCharacter(14));
 	}
 
-	@Test
+	@Test(expected = IllegalArgumentException.class)
+	
 	public void testGetCharacter3() {
         mystring.setString("There was nothing so VERY remarkable in that");
-        assertEquals('V', mystring.getCharacter(22));
+        assertEquals('V', mystring.getCharacter(-1));
 	}
 
-	@Test
+	
+	@Test(expected = IllegalIndexException.class)
+	
 	public void testGetCharacter4() {
-        fail("Not yet implemented");
+		mystring.setString("I like vowels better than consonants");
+		mystring.getCharacter(40);
+        
 	}
 
 	@Test
@@ -111,8 +121,11 @@ public class MyStringTest {
         assertEquals("There wAS NOTHING so VERY remarkable in that", mystring.getString());
 	}
 
-	@Test
+	@Test(expected = IllegalIndexException.class)
 	public void testFlipCaseInSubstring4() {
-	    fail("Not yet implemented");
+		mystring.setString("There was nothing so VERY remarkable in that");
+        mystring.flipCaseInSubstring(8, 50);
+        assertEquals("There wAS NOTHING so VERY remarkable in that", mystring.getString());
+
 	}
 }
