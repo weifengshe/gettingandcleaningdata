@@ -1,5 +1,7 @@
 package edu.gatech.seclass;
 
+
+
 /**
  * This is an interface for a simple class that represents a string, defined
  * as a sequence of characters.
@@ -91,9 +93,13 @@ public class MyString implements MyStringInterface {
 	public char getCharacter(int position)
 			
 	{
-		if (position < 0 || position >= str.length())
+		if (position < 0)
 		{
-			throw new IllegalArgumentException("Error: position is illegal.");
+			throw new IllegalArgumentException();
+		}
+		else if (position > str.length())
+		{
+			throw new IllegalIndexException();
 		}
 		else 
 		{
@@ -121,10 +127,13 @@ public class MyString implements MyStringInterface {
 	 */
 	public void flipCaseInSubstring(int startPosition, int endPosition)
 	{
-		if (startPosition < 0 || startPosition >= str.length() 
-				|| endPosition <0 || endPosition >= str.length())
+		if (startPosition < 1 || endPosition < 1 )
 		{
-			throw new IllegalArgumentException("Error: position is illegal.");
+			throw new IllegalArgumentException();
+		}
+		else if(startPosition > str.length() || endPosition > str.length())
+		{
+			throw new IllegalIndexException();
 		}
 		else 
 		{
