@@ -80,7 +80,8 @@ public class MyStringTest {
 
 	@Test
 	public void testGetCharacter3() {
-        fail("Not yet implemented");
+        mystring.setString("There was nothing so VERY remarkable in that");
+        assertEquals('V', mystring.getCharacter(22));
 	}
 
 	@Test
