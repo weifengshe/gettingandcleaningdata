@@ -98,12 +98,17 @@ public class MyStringTest {
 
 	@Test
 	public void testFlipCaseInSubstring2() {
-        fail("Not yet implemented");
+		mystring.setString("abcdefghijklmn");
+		mystring.flipCaseInSubstring(5, 10);
+		assertEquals("abcdEFGHIJklmn", mystring.getString());	
+
 	}
 
 	@Test
 	public void testFlipCaseInSubstring3() {
-        fail("Not yet implemented");
+        mystring.setString("There was nothing so VERY remarkable in that");
+        mystring.flipCaseInSubstring(8, 18);
+        assertEquals("There wAS NOTHING so VERY remarkable in that", mystring.getString());
 	}
 
 	@Test
