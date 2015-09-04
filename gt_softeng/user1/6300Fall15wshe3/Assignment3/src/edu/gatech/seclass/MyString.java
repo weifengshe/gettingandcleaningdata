@@ -56,8 +56,8 @@ public class MyString implements MyStringInterface {
 		String strLower = str.toLowerCase();
 		for (int i = 0; i < strLower.length(); i++)
 		{
-			String con = "bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ";
-			if (con.contains(strLower.substring(i, i+1)))
+			String constantLetter = "bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ";
+			if (constantLetter.contains(strLower.substring(i, i+1)))
 			{
 				consonant += str.substring(i, i+1); 
 			}			
@@ -146,7 +146,7 @@ public class MyString implements MyStringInterface {
 					strFlipped += str.substring(i,i+1);
 				}
 			}
-			strFlipped += str.substring(i+1);
+			strFlipped += str.substring(i);
 			str = strFlipped;
 		}
 		
