@@ -1,0 +1,126 @@
+getting and cleaning data assignment
+========================================================
+
+**read in data** 
+explore the data from the README.txt, we know that:
+- 'features.txt': List of all features.
+
+- 'activity_labels.txt': Links the class labels with their activity name.
+
+- 'train/X_train.txt': Training set.
+
+- 'train/y_train.txt': Training labels.
+
+- 'test/X_test.txt': Test set.
+
+- 'test/y_test.txt': Test labels.
+
+The following files are available for the train and test data. Their descriptions are equivalent. 
+
+'train/subject_train.txt': Each row identifies the subject who performed the activity for each window sample. Its range is from 1 to 30. 
+```{r, cache = TRUE, echo = TRUE}
+setwd("/Users/craiglab/Downloads/data/UCI HAR Dataset/")
+x_test <- read.table("./test/X_test.txt")
+dim(x_test) ###2947 X 561
+head(x_test[, 1:5])
+y_test <- read.table("./test/y_test.txt")
+dim(y_test) ### 2947 X 1
+##head(y_test)
+subject_Test <- read.table("./test/subject_test.txt")
+dim(subject_Test) ### 2947 X 1
+##head(subject_test)
+x_train <- read.table("./train/X_train.txt")
+dim(x_train) ### 7352 X 561
+##head(x_train[, 1:5])
+y_train <- read.table("./train/y_train.txt")
+dim(y_train) ### 7352 X 1
+###head(y_train) 
+subject_Train <- read.table("./train/subject_train.txt")
+dim(subject_Train) ### 7352 X 1
+###head(subject_Train)
+```
+
+**1. Merges the training and the test sets to create one data set**
+
+x_test, y_test and subject_test has the same nrow, and they can be cbinded togheter. 
+```{r, cache = TRUE, echo = TRUE}
+Test <- cbind(subject_Test, y_test, x_test)
+dim(Test)
+class(Test)
+```
+x_train, y_train and subject_train has the same nrow, and they can be cbinded togheter. 
+```{r, cache = TRUE, echo = TRUE}
+Train <- cbind(subject_Train, y_train, x_train)
+dim(Train)
+class(Train)
+```
+then rbind  test and train
+```{r, cache = TRUE, echo = TRUE}
+activityTotal<- rbind(Test, Train)
+dim(activityTotal) ## 10299 X 563
+class(activityTotal)
+```
+
+**Extracts only the measurements on the mean and standard deviation for each measurement.**
+
+since 'features.txt': List of all features.
+You can also embed plots, for example:
+
+```{r, cache = TRUE, echo = TRUE}
+features <- read.table("/Users/craiglab/Downloads/data/UCI HAR Dataset/features.txt", stringsAsFactor = FALSE)
+dim(features)
+##head(features)
+
+##features match the actitiy in x_train and y_train and is the colname for them. 
+colnames(activityTotal) <- c("subjects", "labels", features$V2) 
+## remove the "()" from the colnames
+colnames(activityTotal) <- gsub("([-])|[[:punct:]]", "\\1", colnames(activityTotal))
+## construct the index for the columns of mean and standard deviation measurements.
+ind <- grep("mean|std", colnames(activityTotal), ignore.case = TRUE)
+length(ind) ##86 
+### then extract these columnes with first 2 columns for subjects and labels
+activityOnlyMeanStd <- activityTotal[, c(1:2, ind)]
+dim(activityOnlyMeanStd) ## 10299 X 88 
+```
+
+
+**Uses descriptive activity names to name the activities in the data set**
+
+from the README.txt we know 'activity_labels.txt': Links the class labels with their activity name.
+So we read in activity_labels.txt first
+```{r, cache = TRUE, echo = TRUE}
+activity_labels <- read.table("/Users/craiglab/Downloads/data/UCI HAR Dataset/activity_labels.txt", stringsAsFactor = F)
+dim(activity_labels)
+activity_labels
+### write a function to replace lables with descriptive names
+replace <- function(x){
+         for(i in 1:nrow(activity_labels)){
+                 if(x == activity_labels[i,1]){
+                         x <-activity_labels[i, 2]
+                 }
+         }
+         x
+ }
+ activityOnlyMeanStd$labels <- sapply(activityOnlyMeanStd$labels, replace)
+```
+
+**Appropriately labels the data set with descriptive variable names.**
+
+Since the variables have been labeled and according to features.txt file and removed some punctuations. The step is not needed, but the details of variable names will be explained in codebook.
+
+**Creates a second, independent tidy data set with the average of each variable for each activity and each subject.**
+
+```{r, cache = TRUE, echo = TRUE}
+activityMeanStdAverage <- aggregate(activityOnlyMeanStd[, 3:88], by = list(activityOnlyMeanStd$subjects, activityOnlyMeanStd$labels), mean)
+colnames(activityMeanStdAverage)[1:2] <- c("subjects", "labels")
+activityMeanStdAverage[1:5, 1:5]
+```
+
+save the tidy data file
+```{r, cache = TRUE, echo = TRUE}
+write.table(activityMeanStdAverage, "/Users/craiglab/gettingandcleaningdata/tidydata.csv", sep = ",", col.names = TRUE)
+```
+
+
+
+

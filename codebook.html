@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<!-- saved from url=(0014)about:internet -->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=9" >
+
+<title>Codebook for Human Activity Recognition Using Smartphones Dataset</title>
+
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 12px;
+   margin: 8px;
+}
+
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 { 
+   font-size:2.2em; 
+}
+
+h2 { 
+   font-size:1.8em; 
+}
+
+h3 { 
+   font-size:1.4em; 
+}
+
+h4 { 
+   font-size:1.0em; 
+}
+
+h5 { 
+   font-size:0.9em; 
+}
+
+h6 { 
+   font-size:0.8em; 
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre {	
+   margin-top: 0;
+   max-width: 95%;
+   border: 1px solid #ccc;
+   white-space: pre-wrap;
+}
+
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code.r, code.cpp {
+   background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * { 
+      background: transparent !important; 
+      color: black !important; 
+      filter:none !important; 
+      -ms-filter: none !important; 
+   }
+
+   body { 
+      font-size:12pt; 
+      max-width:100%; 
+   }
+       
+   a, a:visited { 
+      text-decoration: underline; 
+   }
+
+   hr { 
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote { 
+      padding-right: 1em; 
+      page-break-inside: avoid; 
+   }
+
+   tr, img { 
+      page-break-inside: avoid; 
+   }
+
+   img { 
+      max-width: 100% !important; 
+   }
+
+   @page :left { 
+      margin: 15mm 20mm 15mm 10mm; 
+   }
+     
+   @page :right { 
+      margin: 15mm 10mm 15mm 20mm; 
+   }
+
+   p, h2, h3 { 
+      orphans: 3; widows: 3; 
+   }
+
+   h2, h3 { 
+      page-break-after: avoid; 
+   }
+}
+
+</style>
+
+
+
+
+
+</head>
+
+<body>
+<h1>Codebook for Human Activity Recognition Using Smartphones Dataset</h1>
+
+<p>the dataset came from 
+Jorge L. Reyes-Ortiz, Davide Anguita, Alessandro Ghio, Luca Oneto.
+Smartlab - Non Linear Complex Systems Laboratory
+DITEN - Universit‡ degli Studi di Genova.
+Via Opera Pia 11A, I-16145, Genoa, Italy.
+<a href="mailto:activityrecognition@smartlab.ws">activityrecognition@smartlab.ws</a>
+<a href="http://www.smartlab.ws">www.smartlab.ws</a></p>
+
+<p>The experiments have been carried out with a group of 30 volunteers within an age bracket of 19-48 years. Each person performed six activities (WALKING, WALKING_UPSTAIRS, WALKING_DOWNSTAIRS, SITTING, STANDING, LAYING) wearing a smartphone (Samsung Galaxy S II) on the waist. Using its embedded accelerometer and gyroscope, The authers captured 3-axial linear acceleration and 3-axial angular velocity at a constant rate of 50Hz. The experiments have been video-recorded to label the data manually. The obtained dataset has been randomly partitioned into two sets, where 70% of the volunteers was selected for generating the training data and 30% the test data. </p>
+
+<p>The sensor signals (accelerometer and gyroscope) were pre-processed by applying noise filters and then sampled in fixed-width sliding windows of 2.56 sec and 50% overlap (128 readings/window). The sensor acceleration signal, which has gravitational and body motion components, was separated using a Butterworth low-pass filter into body acceleration and gravity. The gravitational force is assumed to have only low frequency components, therefore a filter with 0.3 Hz cutoff frequency was used. From each window, a vector of features was obtained by calculating variables from the time and frequency domain. See &#39;features_info.txt&#39; for more details. </p>
+
+<p>the following steps has been taken to analyze the data.</p>
+
+<ol>
+<li><p>merge the train and test data set together. </p>
+
+<ul>
+<li>x_train, y_train and subject_train are merged to Train</li>
+<li>x_test, y_test and subject_test are merged to Test</li>
+<li>Train and Test are merged to activityTotal</li>
+</ul></li>
+<li><p>Extract the mean and standard deviation measurement</p>
+
+<ul>
+<li>read in the features.txt file which represents each measurement for x_test and x_train</li>
+<li>use the file to label the colnames of activityTotal</li>
+<li>remove the punctuation from colnames</li>
+<li>extract only the colnames with mean and std variables</li>
+</ul></li>
+<li><p>Uses descriptive activity names to name the activities in the data set</p>
+
+<ul>
+<li>read in activities_labels.txt file which has the activities with repect to the number</li>
+<li>then change the number ot discriptive activities according to this file. </li>
+</ul></li>
+<li><p>Appropriately labels the data set with descriptive variable names.
+this step has been done together with step 2.
+and the details of each variable are explained below.</p></li>
+<li><p>Creates a second, independent tidy data set with the average of each variable for each activity and each subject.</p>
+
+<ul>
+<li>use aggregate function to calculate the mean for each activity and each subject</li>
+<li>with the new data frame to a file: tidydata.csv</li>
+</ul></li>
+</ol>
+
+<p>the details for each variable name:</p>
+
+<p>&#39;t&#39; denotes time, the time domain signals were captured at a constant rate of 50 Hz. </p>
+
+<p>&#39;f&#39; donotes a fast fourier transform (FFT) was applied.</p>
+
+<p>&#39;Acc-XYZ&#39; denotes accelerometer 3-axial signal.</p>
+
+<p>&#39;Gyro-XYX&#39; denotes gyroscope 3-axial raw signal.</p>
+
+<p>&#39;-XYZ&#39; is used to denote 3-axial signals in the X, Y and Z directions.</p>
+
+</body>
+
+</html>
+
